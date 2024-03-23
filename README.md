@@ -26,7 +26,7 @@ The purpose is to solve this equation and observe the potential answers we could
 3. Selection
 4. Crossover
 5. Mutation
-6. Iterate over steps 2-6 until iteration reaches 0
+6. Iterate over steps **2-6** until iteration reaches **0**
 
 After processing iterations repeatedly, we notice that the output results become more rational and approach our desired answer more closely.
 
@@ -47,7 +47,7 @@ cargo run
 ```
 # TODOs
 - [ ] Code optimizations
-- [ ] Check fitness values if it's correct ...
+- [ ] Check fitness values if they're correct ...
 - [ ] Make it more flexible that accepts also different variants of equations ( maybe using macros )
 - [ ] Show best scores , success rates within each iteration
 - [ ] Add GUI ( not neccesssary )
