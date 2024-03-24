@@ -3,7 +3,7 @@ use rand::{Rng , rngs::ThreadRng};
 
 trait GeneticAlg {
     fn populate(&self) -> Vec<Vec<i32>>;
-    fn evaluation(&self , a: i32 , b: i32 , c: i32 , d:i32) -> i32;
+    fn evaluation(&self , p : &Vec<Vec<i32>>) -> Box<[i32]>;
     fn selection(&self, p : &mut Vec<Vec<i32>>, fitness: &[i32], rnd : &mut ThreadRng);
     fn crossover(&self, p : &mut Vec<Vec<i32>>, rc : f32, rnd : &mut ThreadRng);
     fn mutation(&self , p : &mut Vec<Vec<i32>>, rm : f32 , rnd : &mut ThreadRng);
@@ -44,12 +44,19 @@ impl Genetic {
 }
 
 impl GeneticAlg for Genetic {
+    
     fn populate(&self) -> Vec<Vec<i32>> {
         (0..self.n_pop).map(|_| Chromosome::gen(self.n_bits)).collect()
     }
 
-    fn evaluation(&self , a: i32 , b: i32 , c: i32 , d:i32) -> i32{
-        (a + 2 * b + 3 * c + 4 * d - 30).abs()
+    fn evaluation (&self , p : &Vec<Vec<i32>>) -> Box<[i32]> {
+        p.iter().map(|chromosome| {
+            if let &[a, b, c, d] = chromosome.as_slice() {
+                (a + 2 * b + 3 * c + 4 * d - 30).abs()
+            } else {
+                panic!("Invalid chromosome format");
+            }
+        }).collect()
     }
     
     fn selection(&self, p : &mut Vec<Vec<i32>>, fitness: &[i32], rnd : &mut ThreadRng) {
@@ -160,29 +167,26 @@ fn main() {
     // population
     let mut pop = genetic.populate();
 
+    // calculate initial fitness 
+    let mut fitness = genetic.evaluation(&pop);
+
     // iterating to make new generations
     for iter in 1..=ni {
-
-        // evaluation 
-        let fitness : Vec<_> = pop.iter().map(|chromosome| {
-            if let &[a, b, c, d] = chromosome.as_slice() {
-                genetic.evaluation(a, b, c, d)
-            } else {
-                panic!("Invalid chromosome format");
-            }
-        }).collect();
-
+                
         // roulette selection 
         genetic.selection(&mut pop , &fitness , &mut rnd);
-
+        
         // crossover process 
         genetic.crossover(&mut pop, rc, &mut rnd);
-
+        
         // mutation process 
         genetic.mutation(&mut pop , rm, &mut rnd);
-
-        // final output
-        println!("iteration : {} fitness : {:?} population: {:?}" , iter , fitness , pop);
-
+        
+        // calculate fitness for current generation
+        fitness = genetic.evaluation(&pop);
+        
+        // show results for
+        println!("iteration : {} fitness : {:?} population: {:?}", iter, fitness, pop);
+        
     }
 }
