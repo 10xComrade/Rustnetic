@@ -182,10 +182,10 @@ fn main() {
         // mutation process 
         genetic.mutation(&mut pop , rm, &mut rnd);
         
-        // calculate fitness for current generation
+        // update fitness for current generation
         fitness = genetic.evaluation(&pop);
         
-        // show results for
+        // show results 
         println!("iteration : {} fitness : {:?} population: {:?}", iter, fitness, pop);
         
     }
