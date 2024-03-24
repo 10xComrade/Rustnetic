@@ -47,7 +47,7 @@ cargo run
 ```
 # TODOs
 - [ ] Code optimizations
-- [ٓX] Check fitness values if they're correct ...
+- [x] Check fitness values if they're correct ...
 - [ ] Make it more flexible that accepts also different variants of equations ( maybe using macros )
 - [ ] Show best scores , success rates within each iteration
 - [ ] Add GUI ( not neccesssary )
