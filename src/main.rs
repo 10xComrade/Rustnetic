@@ -26,7 +26,7 @@ struct Genetic {
 impl Chromosome {
     fn gen(n_bits: u16) -> Vec<i32> {
         let mut rng = rand::thread_rng();
-        let genes: Vec<i32> = (0..n_bits).map(|_| rng.gen_range(0..=30)).collect();
+        let genes: Vec<i32> = (0..n_bits).map(|_| rng.gen_range(0..30)).collect();
         genes 
     }
 }
@@ -105,15 +105,15 @@ impl GeneticAlg for Genetic {
             
             match (parents.get(index) , parents.get(index + 1)) {
                 (Some(a) , Some(b)) => {
-                    let mut crossover_point1 = &a[..r];
-                    let mut crossover_point2 = &b[r..];
+                    let crossover_point1 = &a[..r];
+                    let crossover_point2 = &b[r..];
 
                     p[index] = [crossover_point1 , crossover_point2].concat();
                 }
 
                 (Some(a) , None) => {
-                    let mut crossover_point1 = &a[..r];
-                    let mut crossover_point2 = &parents[0][r..];
+                    let crossover_point1 = &a[..r];
+                    let crossover_point2 = &parents[0][r..];
                     
                     p[index] = [crossover_point1 , crossover_point2].concat();
                 }
@@ -137,7 +137,7 @@ impl GeneticAlg for Genetic {
 
 fn main() {
     // number of iterations 
-    let mut ni = 100; 
+    let ni = 100; 
 
     // number of bits
     let nb = 4; 
@@ -146,10 +146,10 @@ fn main() {
     let np = 6; 
     
     // crossover rate 
-    let rc = 0.3; 
+    let rc = 0.5; 
 
     // mutation rate
-    let rm = 0.1; 
+    let rm = 0.05; 
 
     // random number generator
     let mut rnd = rand::thread_rng(); 
