@@ -5,7 +5,7 @@ use rand::{Rng , rngs::ThreadRng};
 trait GeneticAlg {
     fn populate(&self) -> Vec<Chromosome>;
     fn evaluation(&self , pop : &Vec<Chromosome>) -> Box<[u16]>;
-    fn selection(&self, fitness: &[u16] , pop : &mut Vec<Chromosome>, rnd : &mut ThreadRng);
+    fn selection(&self, f_obj: &[u16] , pop : &mut Vec<Chromosome>, rnd : &mut ThreadRng);
     fn crossover(&self, pop : &mut Vec<Chromosome> ,rnd : &mut ThreadRng);
     fn mutation(&self, pop : &mut Vec<Chromosome> ,rnd : &mut ThreadRng);
 }
@@ -71,18 +71,18 @@ impl GeneticAlg for Genetic {
         }).collect::<Vec<_>>().into_boxed_slice()
     }
     
-    fn selection(&self, fitness : &[u16], pop : &mut Vec<Chromosome>, rnd : &mut ThreadRng) {
-        let total_fitness: f32 = fitness
+    fn selection(&self, f_obj : &[u16], pop : &mut Vec<Chromosome>, rnd : &mut ThreadRng) {
+        let total_fitness: f32 = f_obj
             .iter()
-            .map(|&item| 1.0 / (item as f32 + 1.0))
+            .map(|&f_value| 1.0 / (f_value as f32 + 1.0))
             .sum();
         
-        let mut cumulative = vec![];
+        let mut cumulative_p = vec![];
         let mut new_pop = vec![];
 
-        let probabilities : Vec<f32> = fitness
+        let probabilities : Vec<f32> = f_obj
             .iter()
-            .map(|&f_obj| (1.0 / (1.0 + f_obj as f32)) / total_fitness)
+            .map(|&f_value| (1.0 / (f_value as f32 + 1.0)) / total_fitness)
             .collect();
         
         for index in 0..pop.len() {
@@ -91,13 +91,13 @@ impl GeneticAlg for Genetic {
                 .take(index + 1)
                 .sum();
 
-            cumulative.push(sum);
+            cumulative_p.push(sum);
         }
 
         for _ in 0..pop.len(){
             let r = rnd.gen_range(0.0..1.0);
             
-            for (index_c , &value) in cumulative.iter().enumerate() {
+            for (index_c , &value) in cumulative_p.iter().enumerate() {
                 if r < value {
                     new_pop.push(pop[index_c].clone());
                     break;
@@ -182,14 +182,14 @@ fn main() {
     // population
     let mut pop = genetic.populate();
 
-    // calculate initial fitness 
-    let mut fitness = genetic.evaluation(&pop);
+    // calculate initial f_obj 
+    let mut f_obj = genetic.evaluation(&pop);
 
     // // iterating to make new generations
     for iter in 1..=genetic.n_iter {
                 
         // roulette selection 
-        genetic.selection(&fitness , &mut pop , &mut rnd);
+        genetic.selection(&f_obj , &mut pop , &mut rnd);
         
         // crossover process 
         genetic.crossover(&mut pop , &mut rnd);
@@ -197,11 +197,11 @@ fn main() {
         // mutation process 
         genetic.mutation(&mut pop , &mut rnd);
         
-        // update fitness for current generation
-        fitness = genetic.evaluation(&pop);
+        // update f_obj for current generation
+        f_obj = genetic.evaluation(&pop);
         
         // show results 
-        println!("iteration : {} fitness : {:?} population: {:?}", iter, fitness, pop);
+        println!("iteration : {} f_obj : {:?} population: {:?}", iter, f_obj, pop);
         
     }
 }
