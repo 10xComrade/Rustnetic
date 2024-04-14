@@ -4,8 +4,9 @@
 
 <p align="center">
   <img src="https://img.shields.io/badge/_Rustnetic-ff5733?logo=github" alt=" Rustnetic">
-  <img src="https://img.shields.io/badge/License-GPL_V_3.0-ea3c00?logo=gnu" alt="License - GPL V 3.0"/>
+  <img src="https://img.shields.io/badge/License-GPL V 3.0-ea3c00?logo=gnu" alt="License - GPL V 3.0"/>
   <img src="https://img.shields.io/badge/Language-Rust-e2722e?logo=rust&logoColor=e2722e" alt="Language - Rust">
+  <img src="https://img.shields.io/badge/Plotters V 0.3.5-navy?logo=github" alt="Plotters V 0.3.5"/>
 </p>
 
 # Rustnetic
@@ -26,11 +27,22 @@ The purpose is to solve this equation and observe the potential answers we could
 3. Selection
 4. Crossover
 5. Mutation
-6. Iterate over steps **2-6** until iteration reaches **0**
+6. Iterate over steps **2-5** until iteration number ttps://img.shields.io/badge/any_text-you_like-bluereaches **0**
 
 After processing iterations repeatedly, we notice that the output results become more rational and approach our desired answer more closely.
 
-# Installation
+**an Example of results getting enhanced after each iteration :**
+
+<img align="center" width="70%" height="70%" src="https://github.com/10xComrade/Rustnetic/assets/165196971/1df1788d-a968-41c0-a36f-fbbb2d82b734">
+
+(x = iteration , y = avg f_obj of genes per chromosome)
+
+Note : avg f_obj must get closer to zero 
+because if chromosomes genes is gonna solve problem
+the f_obj of each one will be zero 
+so it decrease the avg f_obj
+
+# Setup
 
 1. Make sure you have Rust installed on your PC
 2. Clone the project:
@@ -48,6 +60,6 @@ cargo run
 # TODOs
 - [ ] Code optimizations
 - [x] Check fitness values if they're correct ...
-- [ ] Make it more flexible that accepts also different variants of equations ( maybe using macros )
-- [ ] Show best scores , success rates within each iteration
-- [ ] Add GUI ( not neccesssary )
+- [ ] Make it support different variants of equations  
+- [x] Show best scores , success rates within each iteration
+- [x] Add GUI ( not neccesssary )
