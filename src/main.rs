@@ -1,6 +1,9 @@
 use std::fmt::Debug;
-use rand::{Rng , rngs::ThreadRng};
+use plotters::coord;
+use rand::{rngs::ThreadRng, Error, Rng};
+use graph::draw_graph::draw;
 
+mod graph;
 
 trait GeneticAlg {
     fn populate(&self) -> Vec<Chromosome>;
@@ -8,6 +11,7 @@ trait GeneticAlg {
     fn selection(&self, f_obj: &[u16] , pop : &mut Vec<Chromosome>, rnd : &mut ThreadRng);
     fn crossover(&self, pop : &mut Vec<Chromosome> ,rnd : &mut ThreadRng);
     fn mutation(&self, pop : &mut Vec<Chromosome> ,rnd : &mut ThreadRng);
+    fn avg_score_coordinate(&self , iter : u16, score : &[u16] ) -> (f32 , f32);
 }
 
 #[derive(Clone)]
@@ -155,9 +159,17 @@ impl GeneticAlg for Genetic {
             pop[r / n_bits].genes[r % n_bits] = rnd.gen_range(0..30);
         }   
     }
+
+    fn avg_score_coordinate(&self, iter : u16 , score : &[u16]) -> (f32 , f32) {
+        let sum : u16 = score.iter().map(|&x| x as u16).sum();
+        let avg_score : u16 = sum / score.len() as u16;
+
+        (iter as f32 , avg_score as f32) 
+    }
 }
 
-fn main() {
+fn main() -> Result<() , Error> {
+    
     // number of iterations 
     let ni = 100; 
 
@@ -185,9 +197,12 @@ fn main() {
     // calculate initial f_obj 
     let mut f_obj = genetic.evaluation(&pop);
 
-    // // iterating to make new generations
+    // average score of each generation
+    let mut coordinate : Vec<(f32 , f32)> = Vec::new();
+
+    // iterating to make new generations
     for iter in 1..=genetic.n_iter {
-                
+        
         // roulette selection 
         genetic.selection(&f_obj , &mut pop , &mut rnd);
         
@@ -200,8 +215,16 @@ fn main() {
         // update f_obj for current generation
         f_obj = genetic.evaluation(&pop);
         
-        // show results 
+        // calculate the coordination on graph
+        coordinate.push(genetic.avg_score_coordinate(iter , &*f_obj));
+
+        // also print results on console
         println!("iteration : {} f_obj : {:?} population: {:?}", iter, f_obj, pop);
         
     }
+
+    // illustrate the coordinations on 
+    let _ = draw(coordinate);
+
+    Ok(())
 }
