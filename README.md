@@ -27,7 +27,7 @@ The purpose is to solve this equation and observe the potential answers we could
 3. Selection
 4. Crossover
 5. Mutation
-6. Iterate over steps **2-5** until iteration number ttps://img.shields.io/badge/any_text-you_like-bluereaches **0**
+6. Iterate over steps **2-5** until iteration number reaches **0**.
 
 After processing iterations repeatedly, we notice that the output results become more rational and approach our desired answer more closely.
 
@@ -37,10 +37,7 @@ After processing iterations repeatedly, we notice that the output results become
 
 (x = iteration , y = avg f_obj of genes per chromosome)
 
-Note : avg f_obj must get closer to zero 
-because if chromosomes genes is gonna solve problem
-the f_obj of each one will be zero 
-so it decrease the avg f_obj
+Note: The average objective function (f_obj) must get closer to zero. Because if the chromosome's genes are going to solve the problem, the f_obj of each chromosome will be zero, thus decreasing the average f_obj of all chromosomes in each iteration.
 
 # Setup
 
