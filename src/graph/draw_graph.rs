@@ -1,4 +1,4 @@
-use plotters::prelude::*;
+use plotters::{prelude::*, style::full_palette::PURPLE};
 
 pub fn draw(coordinate : Vec<(f32 , f32)>) -> Result<(), Box<dyn std::error::Error>> {
     let root = BitMapBackend::new("./assets/result.png", (1200, 1200)).into_drawing_area();
@@ -27,13 +27,13 @@ pub fn draw(coordinate : Vec<(f32 , f32)>) -> Result<(), Box<dyn std::error::Err
     
     chart.draw_series(LineSeries::new(
         coordinate.clone(),
-        &GREEN,
+        &RED,
     ))?;
 
     chart.draw_series(PointSeries::of_element(
         coordinate.clone(),
         5,
-        &GREEN,
+        &BLUE,
         &|c, s, st| {
             return EmptyElement::at(c)    
             + Circle::new((0,0),s,st.filled()) 
