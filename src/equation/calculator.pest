@@ -1,0 +1,19 @@
+digit = @{ ASCII_DIGIT+ }
+
+unary_minus = { "-" }
+primary = _{ digit | "(" ~ expr ~ ")" }
+atom = _{ unary_minus? ~ primary }
+
+bin_op = _{ add | subtract | multiply | divide | modulo | pow }
+	add = { "+" }
+	subtract = { "-" }
+	multiply = { "*" }
+	divide = { "/" }
+	modulo = { "%" }
+	pow = { "^" }	
+
+expr = { atom ~ (bin_op ~ atom)* }
+
+equation = _{ SOI ~ expr ~ EOI }
+
+WHITESPACE = _{ " " }
