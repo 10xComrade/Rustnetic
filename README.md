@@ -57,6 +57,6 @@ cargo run
 # TODOs
 - [ ] Code optimizations
 - [x] Check fitness values if they're correct ...
-- [ ] Make it support different variants of equations  
+- [x] support different variants of equations  
 - [x] Show best scores , success rates within each iteration
 - [x] Add GUI ( not neccesssary )
