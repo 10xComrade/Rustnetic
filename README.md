@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://github.com/KohoolateSen/Rustnetic/assets/98024986/35b788a4-48d9-4d8a-bbe3-b01508d39128" width="400em" height="400em"/>
+  <img src="https://github.com/10xComrade/Rustnetic/assets/98024986/35b788a4-48d9-4d8a-bbe3-b01508d39128" width="400em" height="400em"/>
 </p>
 
 <p align="center">
@@ -44,7 +44,7 @@ Note: The average objective function (f_obj) must get closer to zero. Because if
 1. Make sure you have Rust installed on your PC
 2. Clone the project:
 ```
-git clone https://github.com/KohoolateSen/Rustnetic.git
+git clone https://github.com/10xComrade/Rustnetic.git
 ```
 3. Change Directory :
 ```
